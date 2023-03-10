@@ -37,7 +37,6 @@ public class TestRestClass {
         List<User> users = response.jsonPath().getList("", User.class);
         Assert.assertEquals(users.size(), 10, "Expected users list size doesn't equal to actual");
     }
-
     @Test
     public void getUsersByIdTest() {
         Response responseAllUsers = requestSpecification.expect().statusCode(HttpStatus.SC_OK).log().ifError()
@@ -53,11 +52,11 @@ public class TestRestClass {
 
     @Test
     public void createUsersTest() {
-        User expectedUser = createUser();
-        Response response = requestSpecification.body(expectedUser).expect().statusCode(HttpStatus.SC_CREATED).log().ifError()
+        User toBeCreated = createUser();
+        Response response = requestSpecification.body(toBeCreated).expect().statusCode(HttpStatus.SC_CREATED).log().ifError()
                 .when().post("https://gorest.co.in/public/v2/users/");
         User createdUser = response.as(User.class);
-        Assert.assertEquals(createdUser.getName(), expectedUser.getName(), "Expected user doesn't have correct name");
+        Assert.assertEquals(createdUser.getName(), toBeCreated.getName(), "Expected user doesn't have correct name");
     }
 
     @Test
